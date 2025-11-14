@@ -1,29 +1,25 @@
 import java.util.*;
 class Solution {
+    static boolean[] visited; // 자동으로 0 초기화
     public int solution(int n, int[][] computers) {
+        visited = new boolean[n];
         int answer = 0;
-        boolean visited[] = new boolean[n]; // 컴퓨터 번호 방문 여부 
-        
-        for (int i = 0; i < n; i++) visited[i] = false;
-        
-        Queue<Integer> queue = new LinkedList<>();
         for (int i = 0; i < n; i++) {
-            if (visited[i] == false) {
-                queue.offer(i);
-                visited[i] = true;
+            if (!visited[i]) {
+                dfs(n, computers, i);
                 answer += 1;
             }
-            while(!queue.isEmpty()) {
-                int next = queue.poll();
-                for (int j = 0; j < n; j++) {
-                    if (visited[j] == false && computers[next][j] == 1) {
-                        queue.offer(j);
-                        visited[j] = true;   
-                    }
-                }
+        }
+        return answer;
+    }
+    public void dfs(int n, int[][] computers, int now) {
+        visited[now] = true;
+        for(int i = 0; i < n; i++) {
+            if (!visited[i] && computers[now][i] == 1) {
+                dfs(n, computers, i);
+                // visited[i] = true;
             }
         }
         
-        return answer;
     }
 }
