@@ -1,21 +1,28 @@
+import java.util.*;
 class Solution {
     public int solution(int[] numbers, int target) {
-        return dfs(numbers, target, 0, 0);
-    }
-    
-    // idx: 몇 번째 숫자까지 썼는지
-    // sum : 숫자합
-    private int dfs(int[] numbers, int target, int idx, int sum) {
-        if (idx == numbers.length) {
-            if (sum == target)
-                return 1;
-            else
-                return 0;
+        int answer = 0;
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{0, -1}); // (sum, idx)
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int sum = cur[0];
+            int idx = cur[1];
+            if (idx == numbers.length - 1) {
+                if (sum == target) {
+                    answer += 1;
+                    continue;
+                }
+                else {
+                    answer += 0;
+                    continue;
+                }
+            }
+            queue.offer(new int[]{cur[0] + numbers[idx + 1], idx + 1});
+            queue.offer(new int[]{cur[0] - numbers[idx + 1], idx + 1});
         }
-        // 현재 숫자 더하는 경우
-        int cnt1 = dfs(numbers, target, idx + 1, sum + numbers[idx]);
-        int cnt2 = dfs(numbers, target, idx + 1, sum - numbers[idx]);
-        return cnt1 + cnt2;
         
+        return answer;
     }
+
 }
