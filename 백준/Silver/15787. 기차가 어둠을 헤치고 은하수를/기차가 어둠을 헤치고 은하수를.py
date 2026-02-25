@@ -1,12 +1,10 @@
 import sys
 from collections import deque
+
 input = sys.stdin.readline
-
 n, m = map(int, input().split())
-
 dq = [deque([False] * 20) for _ in range(n)]
 
-res = n
 for i in range(m): # m회만큼 명령
     cmd = list(map(int, input().split()))
     if cmd[0] == 1: # 승차
@@ -34,15 +32,12 @@ for i in range(m): # m회만큼 명령
         dq[train].append(False)
         dq[train].popleft()
 
-record = []
-for i in range(n):
-    duplicated = False
-    for t in record:
-        if t == dq[i]:
-            duplicated = True
-            res -= 1
-            break
-    if not duplicated:
-        record.append(deque(dq[i]))  # 처음 보는 상태일 때만 추가
-
-print(res)
+# set, tuple 사용 정답 1
+# res = set()
+# for i in range(n):
+#     res.add(tuple(dq[i]))
+# print(len(res))
+    
+# # set, tuple 사용 정답 2 - set을 {}로 바로 사용 가능
+# print(len({tuple(dq[i]) for i in range(n)}))
+print(len({tuple(x) for x in dq}))
