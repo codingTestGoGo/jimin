@@ -3,8 +3,8 @@ input = sys.stdin.readline
 
 r, c, k = map(int, input().split())
 grid = [list(input().strip()) for _ in range(r)]
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
+# dx = [-1, 1, 0, 0]
+# dy = [0, 0, -1, 1]
 
 visited = [[False] * c for _ in range(r)]
 res = 0 # k인 가짓수
@@ -17,8 +17,8 @@ def dfs(cx, cy, cdist):
             res += 1
         return
         
-    for i in range(4):
-        nx, ny = cx + dx[i], cy + dy[i]
+    for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+        nx, ny = cx + dx, cy + dy
         if 0 <= nx < r and 0 <= ny < c and grid[nx][ny] != 'T' and not visited[nx][ny]:
             visited[nx][ny] = True
             dfs(nx, ny, cdist + 1)
